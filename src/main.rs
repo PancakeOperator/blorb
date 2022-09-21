@@ -1,8 +1,7 @@
 
-use std::fs::{self ,DirEntry};
-use std::path::*;
+use std::io::Read;
+use std::fs::{self};
 use std::env;
-use std::time::SystemTime;
 use std::io;
 
 struct PathWay {
@@ -14,7 +13,7 @@ struct PathWay {
 impl PathWay {
     #![allow(dead_code)]
     pub fn new() -> Self {
-        let mut pathway = Self {
+        let pathway = Self {
             file_path: vec!["./".to_string()],
             file_name: vec![],
             err: None,
@@ -22,6 +21,13 @@ impl PathWay {
         pathway
     }
 
+    pub fn read_file(p: String) -> io::Result<()> {
+        let mut f = std::fs::File::open(p)?;
+        let mut buf = String::new();
+
+        f.read_to_string(&mut buf)?;
+        Ok(())
+    }
     pub fn curren_dir() -> io::Result<()> {
         let cur_dir = env::current_dir()?;
         
@@ -42,6 +48,7 @@ impl PathWay {
         }
         Ok(())
     }
+
     #[allow(dead_code)]
     pub fn reload_path_list(&mut self) {
         let cur_path = self.file_path.last().unwrap();
@@ -70,6 +77,8 @@ impl PathWay {
         self.err = None;
     }
 
+
+
 }
 fn main() {
     /*
@@ -84,9 +93,11 @@ fn main() {
     let dir = Files::new().path_name;
 
     println!("{:?}", dir); */
+    println!("what file do you want to read");
+    let mut p = String::new();
+    io::stdin().read_line(&mut p).expect("fail");
+    let fc = PathWay::read_file(p);
     
-    let dir = PathWay::curren_dir();
     
-    
-    println!("{:?}", dir);
+    println!("{:?}", fc);
 }
