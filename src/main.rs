@@ -51,7 +51,11 @@ impl PathWay {
         }
         Ok(())
     }
-
+    
+    #[allow(dead_code)]
+    pub fn find_file() {
+        //let lookup = 
+    }
     #[allow(dead_code)]
     pub fn reload_path_list(&mut self) {
         let cur_path = self.file_path.last().unwrap();
@@ -83,7 +87,46 @@ impl PathWay {
 
 
 }
+pub struct Matchway {
+    flags: env::Args,
+    err: Option<String>,
+}
+impl Matchway {
+    pub fn new() -> Self {
+        let matchway = Self {
+            flags: vec![""],
+            err: None
+        };
+        matchway
+    }
+    pub fn about()  {
+        print!(concat!("Usage: ", env!("CARGO_PKG_NAME"), " [OPTION]... [FILE]...\n", 
+           "  -f, --filenames          display filenames\n",
+           "  -r, --read               display verbose output\n",
+           "  -?, --help               display this help and exit\n",
+        ));
+    }
+    pub fn matching() {
+        let _args = (env::args()).skip(1);
+        let mut _names = Vec::new();
+
+        for _arg in _args {
+            if _arg.starts_with("-") && _arg.len() > 1 {
+                if _arg == "-d" || _arg == "--filenames" || _arg == "--filename" {
+                    PathWay::curren_dir();
+                } else if _arg == "-r" || _arg == "--read" {
+                    PathWay::read_file("E:/forps/src/peop.txt").expect("failed to read files");
+                }
+            }
+            else {
+                _names.push(_arg)
+            }
+        }
+
+
+
+    }
+}
 fn main() {
-   
-    PathWay::read_file("E:/forps/src/peop.txt").expect("fail to read files");
+    
 }
