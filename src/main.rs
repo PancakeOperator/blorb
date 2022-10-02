@@ -31,7 +31,7 @@ impl PathWay {
        }
        Ok(())
     }
-    pub fn curren_dir() -> io::Result<()> {
+    pub fn modified_dir() -> io::Result<()> {
         let cur_dir = env::current_dir()?;
         
        for entry in fs::read_dir(cur_dir)? {
@@ -51,7 +51,17 @@ impl PathWay {
         }
         Ok(())
     }
-    
+    pub fn current_dirs() -> io::Result<()> {
+        let _curr_dir = env::current_dir()?;
+
+        for look_at in fs::read_dir(_curr_dir)? {
+            let look_at = look_at?;
+            let path = look_at.path();
+
+            println!("{:?}", path);
+        }
+        Ok(())
+    }
     #[allow(dead_code)]
     pub fn find_file() {
         //let lookup = 
@@ -83,50 +93,42 @@ impl PathWay {
     pub fn clear_err(&mut self) {
         self.err = None;
     }
-
-
-
 }
-pub struct Matchway {
-    flags: env::Args,
-    err: Option<String>,
-}
-impl Matchway {
-    pub fn new() -> Self {
-        let matchway = Self {
-            flags: vec![""],
-            err: None
-        };
-        matchway
-    }
-    pub fn about()  {
-        print!(concat!("Usage: ", env!("CARGO_PKG_NAME"), " [OPTION]... [FILE]...\n", 
-           "  -f, --filenames          display filenames\n",
-           "  -r, --read               display verbose output\n",
-           "  -?, --help               display this help and exit\n",
-        ));
-    }
-    pub fn matching() {
-        let _args = (env::args()).skip(1);
-        let mut _names = Vec::new();
 
-        for _arg in _args {
-            if _arg.starts_with("-") && _arg.len() > 1 {
-                if _arg == "-d" || _arg == "--filenames" || _arg == "--filename" {
-                    PathWay::curren_dir();
-                } else if _arg == "-r" || _arg == "--read" {
-                    PathWay::read_file("E:/forps/src/peop.txt").expect("failed to read files");
-                }
-            }
-            else {
-                _names.push(_arg)
+fn main() {
+    matching();
+}
+
+fn about()  {
+    print!(concat!("Usage: ", env!("CARGO_PKG_NAME"), " [OPTION]...\n", 
+       "  -m, --modir       display modified directories\n",
+       "  -r, --read        reads files\n",
+       "  -d, --dir         displays directories\n",
+       "  -?, --help        display this help and exit\n",
+       "\nExample\n",
+       "   ", env!("CARGO_PKG_NAME"), " -d\toutputs all files in the current directory"
+    ));
+}
+
+fn matching() {
+    let _args = (env::args()).skip(1);
+    let mut _names = Vec::new();
+
+    for _arg in _args {
+        if _arg.starts_with("-") && _arg.len() > 1 {
+            if _arg == "-m" || _arg == "--modified_dir" || _arg == "--modir" {
+                PathWay::modified_dir().expect("fail");
+            } else if _arg == "-r" || _arg == "--read" {
+                PathWay::read_file("E:/emil/src/peop.txt").expect("failed to read files");
+            } else if _arg == "-?" || _arg == "--help" {
+                about();
+                std::process::exit(0);
+            } else  if _arg == "-d" || _arg == "--dir" {
+                PathWay::current_dirs().expect("failed to find ");
             }
         }
-
-
-
+        else {
+            _names.push(_arg)
+        }
     }
-}
-fn main() {
-    
 }
