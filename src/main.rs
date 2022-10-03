@@ -1,3 +1,5 @@
+
+use std::path::PathBuf;
 use std::io::{BufReader, BufRead};
 use std::fs::{self};
 use std::env;
@@ -62,9 +64,13 @@ impl PathWay {
         }
         Ok(())
     }
-    #[allow(dead_code)]
-    pub fn find_file() {
-        //let lookup = 
+
+    //attempt to find files / might not work yet
+    pub fn seek(lines: Vec<String>, keyword: &str) {
+        let mut a = lines.iter();
+        let keyword_pos = a.position(|line| line.starts_with(keyword)).unwrap();
+        let _ = a.nth(keyword_pos);
+        println!("{:?}", a)
     }
     #[allow(dead_code)]
     pub fn reload_path_list(&mut self) {
