@@ -66,11 +66,13 @@ impl PathWay {
     }
 
     //attempt to find files / might not work yet
-    pub fn seek(lines: Vec<String>, keyword: &str) {
-        let mut a = lines.iter();
-        let keyword_pos = a.position(|line| line.starts_with(keyword)).unwrap();
-        let _ = a.nth(keyword_pos);
-        println!("{:?}", a)
+    pub fn seek(name: &str) {
+        let _names = std::path::Path::new(name);
+
+        let name = _names.parent().unwrap();
+        
+        println!("{:?}", name  )
+        
     }
     #[allow(dead_code)]
     pub fn reload_path_list(&mut self) {
@@ -129,8 +131,10 @@ fn matching() {
             } else if _arg == "-?" || _arg == "--help" {
                 about();
                 std::process::exit(0);
-            } else  if _arg == "-d" || _arg == "--dir" {
+            } else if _arg == "-d" || _arg == "--dir" {
                 PathWay::current_dirs().expect("failed to find ");
+            } else if _arg == "--seek" {
+                PathWay::seek("E:/emil/src/peop.txt")
             }
         }
         else {
