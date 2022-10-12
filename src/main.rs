@@ -21,6 +21,11 @@ impl PathWay {
         };
         pathway
     }
+    
+    pub fn rm_file(name: &str) -> io::Result<()> {
+        fs::remove_file(name)?;
+        Ok(())
+    }
 
     pub fn read_file(name: &str) -> io::Result<()> {
        let filename = fs::File::open(&name)?;
@@ -74,6 +79,7 @@ impl PathWay {
         println!("{:?}", name  )
         
     }
+    
     #[allow(dead_code)]
     pub fn reload_path_list(&mut self) {
         let cur_path = self.file_path.last().unwrap();
@@ -135,6 +141,9 @@ fn matching() {
                 PathWay::current_dirs().expect("failed to find ");
             } else if _arg == "--seek" {
                 PathWay::seek("E:/emil/src/peop.txt")
+            } else if _arg == "-rmf" || _arg == "--rm_file" {
+                PathWay::rm_file("E:/emil/src/peop.txt");
+                
             }
         }
         else {
