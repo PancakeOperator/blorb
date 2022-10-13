@@ -140,10 +140,19 @@ fn matching() {
             } else if _arg == "-d" || _arg == "--dir" {
                 PathWay::current_dirs().expect("failed to find ");
             } else if _arg == "--seek" {
-                PathWay::seek("E:/emil/src/peop.txt")
+                println!("What file do you want to look for");
+                let mut name = String::new();
+                io::stdin()
+                    .read_line(&mut name)
+                    .expect("fail");
+                PathWay::seek(&name);
             } else if _arg == "-rmf" || _arg == "--rm_file" {
-                PathWay::rm_file("E:/emil/src/peop.txt");
-                
+                println!("What file do you want to delete?");
+                let mut file = String::new();
+                io::stdin()
+                    .read_line(&mut file)
+                    .expect("failure to find file");
+                PathWay::rm_file(&file);  
             }
         }
         else {
